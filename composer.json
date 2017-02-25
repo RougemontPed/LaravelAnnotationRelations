@@ -1,7 +1,7 @@
 {
-    "name": "andydan/LaravelAnnotationRelations",
+    "name": "andydan/laravel-annotation-relations",
     "type": "library",
-    "description": "Annotation relations for Laravel 5",
+    "description": "Annotation relationships for Laravel",
     "keywords": [
         "laravel",
         "eloquent",
