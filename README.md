@@ -3,6 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
+[![Coverage Status](https://coveralls.io/repos/github/andydan/LaravelAnnotationRelations/badge.svg?branch=master)](https://coveralls.io/github/andydan/LaravelAnnotationRelations?branch=master)
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Annotation relations for Laravel 5
