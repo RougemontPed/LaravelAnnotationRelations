@@ -51,8 +51,7 @@ abstract class AnnotationParser
         foreach ([str_singular($relationship), $relationship] as $relationshipClassName) {
             if (class_exists($relationshipClassName)) {
                 return $relationshipClassName;
-            }
-            elseif (class_exists($namespace . '\\' . $relationshipClassName)) {
+            } elseif (class_exists($namespace . '\\' . $relationshipClassName)) {
                 return $namespace . '\\' . $relationshipClassName;
             }
         }

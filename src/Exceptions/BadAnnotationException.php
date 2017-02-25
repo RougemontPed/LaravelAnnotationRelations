@@ -4,4 +4,6 @@ namespace AndyDan\LaravelAnnotationRelations\Exceptions;
 
 use Exception;
 
-class BadAnnotationException extends Exception {}
+class BadAnnotationException extends Exception
+{
+}
