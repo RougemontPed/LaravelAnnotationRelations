@@ -5,6 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status](https://coveralls.io/repos/github/andydan/LaravelAnnotationRelations/badge.svg?branch=master)](https://coveralls.io/github/andydan/LaravelAnnotationRelations?branch=master)
 [![StyleCI](https://styleci.io/repos/82421206/shield?branch=master)](https://styleci.io/repos/82421206)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andydan/LaravelAnnotationRelations/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andydan/LaravelAnnotationRelations/?branch=master)
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Annotation relations for Laravel 5
