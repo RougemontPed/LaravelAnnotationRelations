@@ -44,9 +44,12 @@ trait AnnotationRelationships
             if (in_array($annotationName, $this->annotationRelationshipNames)) {
                 $parameters = is_array($parameters) ? $parameters : [$parameters];
 
-                $this->annotationRelationships[$annotationName] = array_map(function ($params) use ($annotationName) {
-                    return $this->parseAnnotationParameters($annotationName, $params);
-                }, $parameters);
+                $this->annotationRelationships[$annotationName] = array_flatten(array_map(
+                    function ($params) use ($annotationName) {
+                        return $this->parseAnnotationParameters($annotationName, $params);
+                    },
+                    $parameters
+                ));
             }
         }
     }
@@ -55,14 +58,18 @@ trait AnnotationRelationships
      * Parse annotation parameters
      *
      * @param string $annotation
-     * @param string $params
+     * @param string $parameters
      * @return AnnotationParameters
      */
-    protected function parseAnnotationParameters($annotation, $params)
+    protected function parseAnnotationParameters($annotation, $parameters)
     {
         $parserName = __NAMESPACE__ . "\\AnnotationParsers\\{$annotation}AnnotationParser";
 
-        return (new $parserName)->parse($params !== true ? $params : '', $this->getCurrentClassNamespaceName());
+        $parameters = $parameters !== true ? $parameters : '';
+
+        return array_map(function ($params) use ($parserName) {
+            return (new $parserName)->parse(trim($params), $this->getCurrentClassNamespaceName());
+        }, explode(',', $parameters));
     }
 
     /**

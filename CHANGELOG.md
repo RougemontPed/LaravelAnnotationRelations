@@ -6,10 +6,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## Unreleased
 ### Added
-- Many relationships through comma
 - MorphTo try to guess owner name
 - HasMany relationship definition (@HasMany Classes through Class)
 - Hide implementation
+
+## 0.12.0 2017-02-26
+
+### Added
+- Many relationships through comma
 
 ## 0.11.3 2017-02-26
 

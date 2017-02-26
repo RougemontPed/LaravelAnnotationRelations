@@ -246,6 +246,21 @@ class User extends Model
 }
 ```
 
+You can define multiple relationships on model through comma
+
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @HasMany Hands, Eyes
+ */
+class Rabbit extends Model
+{
+    use AnnotationRelationships;
+}
+```
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
