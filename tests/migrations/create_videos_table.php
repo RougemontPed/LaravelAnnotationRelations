@@ -8,3 +8,8 @@ Capsule::schema()->create('videos', function (Blueprint $table) {
     $table->integer('user_id')->unsigned()->nullable();
     $table->timestamps();
 });
+
+Capsule::schema()->create('video2s', function (Blueprint $table) {
+    $table->increments('id');
+    $table->timestamps();
+});

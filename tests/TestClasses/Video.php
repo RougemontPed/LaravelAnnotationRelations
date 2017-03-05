@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @MorphMany Comments commentable
+ * @MorphMany Reviews
  * @MorphToMany Tags taggable
  */
 class Video extends Model

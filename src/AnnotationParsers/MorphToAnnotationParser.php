@@ -8,17 +8,19 @@ use AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException;
 
 class MorphToAnnotationParser extends AnnotationParser
 {
+    use OwnerNameGuesser;
+
     /**
      * Parse class annotation params and return array to pass to relation
      *
      * @param string $parameters
-     * @param string $namespace
+     * @param string $className
      * @return AnnotationParameters
      * @throws BadAnnotationException
      */
-    public function handle($parameters, $namespace)
+    public function handle($parameters, $className)
     {
-        return new MorphToAnnotationParameters($parameters);
+        return new MorphToAnnotationParameters($parameters ?: $this->guessOwnerName($className));
     }
 
     /**
@@ -29,11 +31,7 @@ class MorphToAnnotationParser extends AnnotationParser
      */
     protected function validateParameters($parameters)
     {
-        if (!$parameters) {
-            throw new BadAnnotationException('Annotation should\'nt be empty');
-        }
-
-        if (!$this->isValidClassOrMethodName($parameters)) {
+        if ($parameters && !$this->isValidClassOrMethodName($parameters)) {
             throw new BadAnnotationException('Annotation params should only contain owner');
         }
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @MorphTo
  */
-class PostWithAnnotationWithoutArgs extends Model
+class Review extends Model
 {
     use AnnotationRelationships;
 }

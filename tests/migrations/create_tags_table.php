@@ -7,3 +7,8 @@ Capsule::schema()->create('tags', function (Blueprint $table) {
     $table->increments('id');
     $table->timestamps();
 });
+
+Capsule::schema()->create('tag2s', function (Blueprint $table) {
+    $table->increments('id');
+    $table->timestamps();
+});

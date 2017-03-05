@@ -12,12 +12,17 @@ class BelongsToAnnotationParser extends AnnotationParserWithClassParameter
      * Parse class annotation params and return array to pass to relation
      *
      * @param string $parameters
-     * @param string $namespace
+     * @param string $className
      * @return AnnotationParameters
      * @throws BadAnnotationException
      */
-    public function handle($parameters, $namespace)
+    public function handle($parameters, $className)
     {
-        return new BelongsToAnnotationParameters($this->getRelationshipClassName($parameters, $namespace));
+        return new BelongsToAnnotationParameters(
+            $this->getRelationshipClassName(
+                $parameters,
+                $this->getClassNamespaceName($className)
+            )
+        );
     }
 }

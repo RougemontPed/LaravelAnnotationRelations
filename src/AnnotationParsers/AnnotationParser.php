@@ -4,6 +4,7 @@ namespace AndyDan\LaravelAnnotationRelations\AnnotationParsers;
 
 use AndyDan\LaravelAnnotationRelations\AnnotationParams\AnnotationParameters;
 use AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException;
+use ReflectionClass;
 
 abstract class AnnotationParser
 {
@@ -11,10 +12,10 @@ abstract class AnnotationParser
      * Handle parsing
      *
      * @param string $parameters
-     * @param string $namespace
+     * @param string $className
      * @return AnnotationParameters
      */
-    abstract protected function handle($parameters, $namespace);
+    abstract protected function handle($parameters, $className);
 
     /**
      * Validate annotation parameters
@@ -28,14 +29,25 @@ abstract class AnnotationParser
      * Parse class annotation params and return array to pass to relation
      *
      * @param string $parameters
-     * @param string $namespace
+     * @param string $className
      * @return AnnotationParameters
      */
-    public function parse($parameters, $namespace)
+    public function parse($parameters, $className)
     {
         $this->validateParameters($parameters);
 
-        return $this->handle($parameters, $namespace);
+        return $this->handle($parameters, $className);
+    }
+
+    /**
+     * Class namespace name
+     *
+     * @param string $className
+     * @return string
+     */
+    protected function getClassNamespaceName($className)
+    {
+        return (new ReflectionClass($className))->getNamespaceName();
     }
 
     /**

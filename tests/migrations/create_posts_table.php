@@ -8,3 +8,8 @@ Capsule::schema()->create('posts', function (Blueprint $table) {
     $table->integer('user_id')->unsigned();
     $table->timestamps();
 });
+
+Capsule::schema()->create('post2s', function (Blueprint $table) {
+    $table->increments('id');
+    $table->timestamps();
+});

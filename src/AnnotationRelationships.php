@@ -124,18 +124,8 @@ trait AnnotationRelationships
         $parameters = $parameters !== true ? $parameters : '';
 
         return array_map(function ($params) use ($parserName) {
-            return (new $parserName)->parse(trim($params), $this->getCurrentClassNamespaceName());
+            return (new $parserName)->parse(trim($params), static::class);
         }, explode(',', $parameters));
-    }
-
-    /**
-     * Current class namespace
-     *
-     * @return string
-     */
-    protected function getCurrentClassNamespaceName()
-    {
-        return (new ReflectionClass(static::class))->getNamespaceName();
     }
 
     public function __get($name)

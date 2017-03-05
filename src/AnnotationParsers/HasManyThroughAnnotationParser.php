@@ -25,15 +25,15 @@ class HasManyThroughAnnotationParser extends AnnotationParser
      * Parse class annotation params and return array to pass to relation
      *
      * @param string $parameters
-     * @param string $namespace
+     * @param string $className
      * @return HasManyThroughAnnotationParameters
      * @throws BadAnnotationException
      */
-    public function handle($parameters, $namespace)
+    public function handle($parameters, $className)
     {
         return new HasManyThroughAnnotationParameters(
-            $this->getRelationshipClassName($this->related, $namespace),
-            $this->getRelationshipClassName($this->through, $namespace)
+            $this->getRelationshipClassName($this->related, $this->getClassNamespaceName($className)),
+            $this->getRelationshipClassName($this->through, $this->getClassNamespaceName($className))
         );
     }
 
