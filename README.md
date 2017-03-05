@@ -136,7 +136,9 @@ class Country extends Model
 ``` php
 $posts = Country::first()->posts;
 ```
-or
+
+Or
+
 ``` php
 use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
 use Illuminate\Database\Eloquent\Model;
@@ -198,6 +200,45 @@ $comments = Video::first()->comments;
 $commentable = Comment::first()->commentable
 ```
 
+Or we can try to guess your owner name
+
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @MorphTo
+ */
+class Comment extends Model
+{
+    use AnnotationRelationships;
+}
+```
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @MorphMany Comments
+ */
+class Post extends Model
+{
+    use AnnotationRelationships;
+}
+```
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @MorphMany Comments
+ */
+class Video extends Model
+{
+    use AnnotationRelationships;
+}
+```
+
 ### Many To Many Polymorphic Relations
 
 ``` php
@@ -243,6 +284,46 @@ $tags = Video::first()->tags;
 
 $posts = Tag::first()->posts;
 $videos = Tag::first()->videos;
+```
+
+Or we can try to guess your owner name
+
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @MorphToMany Tags
+ */
+class Post extends Model
+{
+    use AnnotationRelationships;
+}
+```
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @MorphToMany Tags
+ */
+class Video extends Model
+{
+    use AnnotationRelationships;
+}
+```
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @MorphedByMany Post
+ * @MorphedByMany Video
+ */
+class Tag extends Model
+{
+    use AnnotationRelationships;
+}
 ```
 
 You can also define multiple annotation relationships on one model

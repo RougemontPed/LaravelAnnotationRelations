@@ -6,8 +6,12 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## Unreleased
 ### Added
-- MorphTo try to guess owner name
 - Hide implementation
+
+## 0.14.0 2017-03-05
+
+### Added
+- MorphTo, MorphToMany, MorphedByMany try to guess owner name
 
 ## 0.13.0 2017-03-05
 

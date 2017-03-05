@@ -3,17 +3,19 @@
 namespace AndyDan\LaravelAnnotationRelations\Tests;
 
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\Post;
+use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\Post2;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\Tag;
+use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\Tag2;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationInverseWithBadParams;
-use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationInverseWithOneParam;
+use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationInverseWithInvalidFirstParam;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationInverseWithoutArgs;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationWithBadParams;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationWithInvalidFirstParam;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationWithInvalidSecondParam;
-use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationWithOneParam;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\User7WithAnnotationWithoutArgs;
 use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\Video;
+use AndyDan\LaravelAnnotationRelations\Tests\TestClasses\Video2;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use PHPUnit\Framework\TestCase;
 
@@ -60,6 +62,40 @@ class ManyToManyPolymorphicAnnotationRelationshipTest extends TestCase
         $this->assertTrue($tag1->videos[0]->is($video));
     }
 
+    public function testMorphToMantRelationshipWithoutOwnerName()
+    {
+        $relation = (new Post2)->tag2s();
+
+        $this->assertInstanceOf(MorphToMany::class, $relation);
+        $this->assertInstanceOf(Tag2::class, $relation->getRelated());
+        $this->assertEquals('tag2able_type', $relation->getMorphType());
+        $this->assertEquals(Post2::class, $relation->getMorphClass());
+        $this->assertEquals('tag2ables', $relation->getTable());
+        $this->assertEquals('tag2ables.tag2able_id', $relation->getQualifiedForeignKeyName());
+        $this->assertEquals('tag2ables.tag2_id', $relation->getQualifiedRelatedKeyName());
+
+        $inverseRelation = (new Tag2)->post2s();
+
+        $this->assertInstanceOf(MorphToMany::class, $inverseRelation);
+        $this->assertInstanceOf(Post2::class, $inverseRelation->getRelated());
+        $this->assertEquals('tag2able_type', $inverseRelation->getMorphType());
+        $this->assertEquals(Post2::class, $inverseRelation->getMorphClass());
+        $this->assertEquals('tag2ables', $inverseRelation->getTable());
+        $this->assertEquals('tag2ables.tag2_id', $inverseRelation->getQualifiedForeignKeyName());
+        $this->assertEquals('tag2ables.tag2able_id', $inverseRelation->getQualifiedRelatedKeyName());
+
+        $post = Post2::create([]);
+        $video = Video2::create([]);
+        $tag1 = $post->tag2s()->create([]);
+        $tag2 = $post->tag2s()->create([]);
+        $video->tag2s()->save($tag1);
+
+        $this->assertCount(2, $post->tag2s);
+        $this->assertTrue($post->tag2s[0]->is($tag1));
+        $this->assertTrue($post->tag2s[1]->is($tag2));
+        $this->assertTrue($tag1->video2s[0]->is($video));
+    }
+
     /**
      * @expectedException \AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException
      * @expectedExceptionMessage Annotation should'nt be empty
@@ -71,16 +107,7 @@ class ManyToManyPolymorphicAnnotationRelationshipTest extends TestCase
 
     /**
      * @expectedException \AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException
-     * @expectedExceptionMessage Annotation params should contain 2 parameters
-     */
-    public function testExceptionThrownCauseAnnotationWithOneParam()
-    {
-        (new User7WithAnnotationWithOneParam)->posts();
-    }
-
-    /**
-     * @expectedException \AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException
-     * @expectedExceptionMessage Annotation params should contain 2 parameters
+     * @expectedExceptionMessage Annotation params should contain 1 or 2 parameters
      */
     public function testExceptionThrownCauseAnnotationWithBadParams()
     {
@@ -98,16 +125,7 @@ class ManyToManyPolymorphicAnnotationRelationshipTest extends TestCase
 
     /**
      * @expectedException \AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException
-     * @expectedExceptionMessage Annotation params should contain 2 parameters
-     */
-    public function testExceptionThrownCauseAnnotationInverseWithOneParam()
-    {
-        (new User7WithAnnotationInverseWithOneParam)->posts();
-    }
-
-    /**
-     * @expectedException \AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException
-     * @expectedExceptionMessage Annotation params should contain 2 parameters
+     * @expectedExceptionMessage Annotation params should contain 1 or 2 parameters
      */
     public function testExceptionThrownCauseAnnotationInverseWithBadParams()
     {
@@ -121,6 +139,15 @@ class ManyToManyPolymorphicAnnotationRelationshipTest extends TestCase
     public function testExceptionThrownCauseAnnotationWithInvalidFirstParam()
     {
         (new User7WithAnnotationWithInvalidFirstParam)->posts();
+    }
+
+    /**
+     * @expectedException \AndyDan\LaravelAnnotationRelations\Exceptions\BadAnnotationException
+     * @expectedExceptionMessage Annotation params should contain 2 parameters
+     */
+    public function testExceptionThrownCauseAnnotationInverseWithInvalidFirstParam()
+    {
+        (new User7WithAnnotationInverseWithInvalidFirstParam)->posts();
     }
 
     /**

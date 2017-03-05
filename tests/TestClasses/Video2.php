@@ -6,9 +6,9 @@ use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @MorphedByMany FirstClass
+ * @MorphToMany Tag2s
  */
-class User7WithAnnotationInverseWithOneParam extends Model
+class Video2 extends Model
 {
     use AnnotationRelationships;
 }
