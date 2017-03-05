@@ -6,10 +6,11 @@ use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @MorphMany Comments commentable
- * @MorphToMany Tags taggable
+ * @HasMany Users
+ * @HasManyThrough Videos User
+ * @HasMany Posts through User
  */
-class Video extends Model
+class Town2 extends Model
 {
     use AnnotationRelationships;
 }

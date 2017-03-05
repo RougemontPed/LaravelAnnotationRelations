@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @HasOne Phone
  * @HasMany Posts
+ * @HasMany Videos
  * @BelongsToMany Roles
  */
 class User extends Model

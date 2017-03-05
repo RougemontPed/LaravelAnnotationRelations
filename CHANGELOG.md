@@ -7,8 +7,12 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## Unreleased
 ### Added
 - MorphTo try to guess owner name
-- HasMany relationship definition (@HasMany Classes through Class)
 - Hide implementation
+
+## 0.13.0 2017-03-05
+
+### Added
+- New has many relationship definition (@HasMany Classes through Class)
 
 ## 0.12.0 2017-02-26
 

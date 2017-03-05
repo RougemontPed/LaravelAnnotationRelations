@@ -136,6 +136,22 @@ class Country extends Model
 ``` php
 $posts = Country::first()->posts;
 ```
+or
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @HasMany Posts through User
+ */
+class Town extends Model
+{
+    use AnnotationRelationships;
+}
+```
+``` php
+$posts = Town::first()->posts;
+```
 
 ### Polymorphic Relations
 

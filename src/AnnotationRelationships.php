@@ -40,9 +40,11 @@ trait AnnotationRelationships
 
         $reader = new Reader(static::class);
 
-        foreach ($reader->getParameters() as $annotationName => $parameters) {
+        $annotationParameters = $this->prepareAnnotationParameters($reader->getParameters());
+
+        foreach ($annotationParameters as $annotationName => $parameters) {
             if (in_array($annotationName, $this->annotationRelationshipNames)) {
-                $parameters = is_array($parameters) ? $parameters : [$parameters];
+                $parameters = (array) $parameters;
 
                 $this->annotationRelationships[$annotationName] = array_flatten(array_map(
                     function ($params) use ($annotationName) {
@@ -52,6 +54,60 @@ trait AnnotationRelationships
                 ));
             }
         }
+    }
+
+    /**
+     * Prepare annotation parameters for processing
+     * Change @HasMany Classes through Class -> @HasManyThrough Classes Class
+     *
+     * @param array $parameters
+     * @return array
+     */
+    protected function prepareAnnotationParameters($parameters)
+    {
+        if (isset($parameters['HasMany'])) {
+            $parameters['HasMany'] = (array) $parameters['HasMany'];
+
+            foreach ($parameters['HasMany'] as $i => $params) {
+                if ($this->isComplexHasManyThroughAnnotationParameters($params)) {
+                    $parameters['HasManyThrough'] = isset($parameters['HasManyThrough']) ?
+                        (array) $parameters['HasManyThrough'] : [];
+
+                    $parameters['HasManyThrough'][] = $this->parseComplexHasManyThroughAnnotationParameters($params);
+
+                    unset($parameters['HasMany'][$i]);
+                }
+            }
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * Return true if annotation looks like @HasMany Classes through Class
+     *
+     * @param string $parameters
+     * @return bool
+     */
+    protected function isComplexHasManyThroughAnnotationParameters($parameters)
+    {
+        $parameters = explode(' ', $parameters);
+
+        return count($parameters) === 3 && $parameters[1] === 'through';
+    }
+
+    /**
+     * Parse parameters @HasMany Classes through Class
+     * Return @HasManyThrough Classes Class
+     *
+     * @param string $parameters
+     * @return string
+     */
+    protected function parseComplexHasManyThroughAnnotationParameters($parameters)
+    {
+        $parameters = explode(' ', $parameters);
+
+        return "{$parameters[0]} {$parameters[2]}";
     }
 
     /**

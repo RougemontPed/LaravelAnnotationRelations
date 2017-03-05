@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @BelongsTo User
- * @MorphMany Comment commentable
+ * @MorphMany Comments commentable
  * @MorphToMany Tags taggable
  */
 class Post extends Model
