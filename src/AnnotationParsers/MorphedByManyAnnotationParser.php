@@ -60,8 +60,7 @@ class MorphedByManyAnnotationParser extends AnnotationParser
 
         if (count($params) === 2) {
             list($this->related, $this->owner) = $params;
-        }
-        else {
+        } else {
             $this->related = $params[0];
         }
 

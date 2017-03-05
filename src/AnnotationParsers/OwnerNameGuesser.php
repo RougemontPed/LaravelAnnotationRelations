@@ -87,7 +87,7 @@ trait OwnerNameGuesser
     protected function onlyOneVowelInWord($word)
     {
         return 1 === array_reduce(str_split($word), function ($vowelsCount, $letter) {
-                return $vowelsCount + (int)$this->isVowel($letter);
+            return $vowelsCount + (int)$this->isVowel($letter);
         }, 0);
     }
 }
