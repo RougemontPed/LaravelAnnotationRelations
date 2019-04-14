@@ -18,7 +18,8 @@ Via Composer
 $ composer require andydan/laravel-annotation-relations
 ```
 Aftewards, override the original code in vendor/andydan/laravel-anotation-relations/src with latest changes from here.
-If anyone else, interested in this package features, want to provide a more professional, be free to help. Contributors wanted. 
+If anyone else, interested in this package features, want to provide a more professional approach, be free to help. 
+Contributors wanted. 
 
 ## Usage (no updates so far from original package, but coming soon)
 
