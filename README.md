@@ -1,4 +1,4 @@
-# Laravel annotation relations
+# Laravel annotation relations (a fork)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/andydan/laravel-annotation-relations.svg)](https://packagist.org/packages/andydan/laravel-annotation-relations)
 [![Software License][ico-license]](LICENSE.md)
@@ -8,7 +8,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andydan/LaravelAnnotationRelations/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andydan/LaravelAnnotationRelations/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/andydan/laravel-annotation-relations.svg)](https://packagist.org/packages/andydan/laravel-annotation-relations)
 
-Annotation relationships for Laravel 5
+Annotation relationships for Laravel 5 (a fork)
 
 ## Install
 
@@ -17,8 +17,10 @@ Via Composer
 ``` bash
 $ composer require andydan/laravel-annotation-relations
 ```
+Aftewards, override the original code in vendor/andydan/laravel-anotation-relations/src with latest changes from here.
+If anyone else, interested in this package features, want to provide a more professional, be free to help. Contributors wanted. 
 
-## Usage
+## Usage (no updates so far from original package, but coming soon)
 
 ### One To One
 
