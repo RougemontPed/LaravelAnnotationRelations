@@ -41,7 +41,7 @@ trait AnnotationRelationships
         $reader = new Reader(static::class);
 
         $annotationParameters = $this->prepareAnnotationParameters($reader->getParameters());
-
+            
         foreach ($annotationParameters as $annotationName => $parameters) {
             if (in_array($annotationName, $this->annotationRelationshipNames)) {
                 $parameters = (array) $parameters;
@@ -131,18 +131,20 @@ trait AnnotationRelationships
     public function __get($name)
     {
         $this->parseClassAnnotations();
+        
+        if ($this->annotationRelationships) {
+            foreach ($this->annotationRelationships as $annotation => $relationships) {
+                foreach ($relationships as $parameters) {
+                    if ($name === $parameters->getRelationshipMethodName()) {
+                        // If the key already exists in the relationships array, it just means the
+                        // relationship has already been loaded, so we'll just return it out of
+                        // here because there is no need to query within the relations twice.
+                        if ($this->relationLoaded($name)) {
+                            return $this->relations[$name];
+                        }
 
-        foreach ($this->annotationRelationships as $annotation => $relationships) {
-            foreach ($relationships as $parameters) {
-                if ($name === $parameters->getRelationshipMethodName()) {
-                    // If the key already exists in the relationships array, it just means the
-                    // relationship has already been loaded, so we'll just return it out of
-                    // here because there is no need to query within the relations twice.
-                    if ($this->relationLoaded($name)) {
-                        return $this->relations[$name];
+                        return $this->getRelationshipFromMethod($name);
                     }
-
-                    return $this->getRelationshipFromMethod($name);
                 }
             }
         }
