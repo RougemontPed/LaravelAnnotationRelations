@@ -11,9 +11,11 @@ class HasManyAnnotationParameters extends AnnotationParameters
      */
     protected $related;
 
-    public function __construct($relatedClassName)
+    public function __construct($relatedClassName, $relatedAlias = '', $relatedFK = '')
     {
         $this->related = $relatedClassName;
+        $this->relatedAlias = $relatedAlias;
+        $this->relatedFK = $relatedFK;
     }
 
     /**
@@ -23,7 +25,7 @@ class HasManyAnnotationParameters extends AnnotationParameters
      */
     public function getRelationshipMethodName()
     {
-        return str_plural(lcfirst(class_basename($this->related)));
+        return ($this->relatedAlias != '') ? $this->relatedAlias : str_plural(lcfirst(class_basename($this->related)));
     }
 
     /**
@@ -33,8 +35,7 @@ class HasManyAnnotationParameters extends AnnotationParameters
      */
     public function getRelationshipMethodParameters()
     {
-        return [
-            $this->related,
-        ];
+        return [$this->related,
+                $this->relatedFK];
     }
 }

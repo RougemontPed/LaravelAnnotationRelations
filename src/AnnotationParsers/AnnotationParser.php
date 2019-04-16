@@ -68,7 +68,7 @@ abstract class AnnotationParser
             }
         }
 
-        throw new BadAnnotationException("Annotation can't found relation class {$relationship}");
+        throw new BadAnnotationException("Annotation can't find relation class {$relationship}");
     }
 
     /**
@@ -80,5 +80,20 @@ abstract class AnnotationParser
     protected function isValidClassOrMethodName($className)
     {
         return preg_match('/^[a-zA-Z_\x7f-\xff\\\][a-zA-Z0-9_\x7f-\xff\\\]*$/', $className);
+    }
+
+    /**
+     * $argument must be in one of three formats:
+     * > alias  
+     * > (fk_name)
+     * > alias(fk_name)
+     *
+     * @param $argument
+     * @return bool
+     */
+    protected function isValidAliasOrFKOrBoth($argument)  {
+        return preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
+                          .'|[(][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[)]'
+                          .'|[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[(][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[)])$/', $argument);
     }
 }

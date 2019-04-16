@@ -17,11 +17,25 @@ class HasManyAnnotationParser extends AnnotationParserWithClassParameter
      */
     public function handle($parameters, $className)
     {
+        $modelName = $parameters;
+        $relatedAlias = '';
+        $relatedFK = '';
+
+        $parameters_array = explode(' ', $parameters);
+        $extraArgsRegex = '/([^(]*)?([(]([^)]+)[)])?/';
+        if(count($parameters_array) > 1) {
+            $modelName = $parameters_array[0];
+            preg_match($extraArgsRegex, $parameters_array[1], $extraArgs);
+            $relatedAlias = $extraArgs[1];
+            $relatedFK = count($extraArgs) == 4 ? $extraArgs[3] : '';
+        }
         return new HasManyAnnotationParameters(
             $this->getRelationshipClassName(
-                $parameters,
+                $modelName,
                 $this->getClassNamespaceName($className)
-            )
+            ),
+            $relatedAlias,
+            $relatedFK
         );
     }
 }

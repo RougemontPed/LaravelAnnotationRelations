@@ -4,6 +4,10 @@ namespace AndyDan\LaravelAnnotationRelations\AnnotationParams;
 
 abstract class AnnotationParameters
 {
+    protected $relatedAlias;
+
+    protected $relatedFK;
+
     /**
      * Return relationship method name
      *

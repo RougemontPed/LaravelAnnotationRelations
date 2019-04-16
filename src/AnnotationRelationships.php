@@ -155,13 +155,12 @@ trait AnnotationRelationships
     public function __call($name, $arguments)
     {
         $this->parseClassAnnotations();
-
+       
         if (empty($arguments)) {
             foreach ($this->annotationRelationships as $annotation => $relationships) {
                 foreach ($relationships as $parameters) {
                     if ($name === $parameters->getRelationshipMethodName()) {
                         $relationshipMethodName = lcfirst($annotation);
-
                         return call_user_func_array(
                             [$this, $relationshipMethodName],
                             $parameters->getRelationshipMethodParameters()

@@ -21,7 +21,7 @@ Aftewards, override the original code in vendor/andydan/laravel-anotation-relati
 If anyone else, interested in this package features, want to provide a more professional approach, be free to help. 
 Contributors wanted. 
 
-## Usage (no updates so far from original package, but coming soon)
+## Usage (check HasMany section)
 
 ### One To One
 
@@ -88,6 +88,60 @@ class Comment extends Model
 ``` php
 $post = Comment::first()->post;
 ```
+
+## NEW Feature
+
+Now you can also supply extra parameters for the @HasMany annotation.
+The first new parameter is the table alias inside your class.
+Naming convention is OK for foreign key ids, but terrible for plurals. You might want to have your relation named in a different fashion than the default. Now you can, provide an alias:
+
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @HasMany Comment commentaries
+ */
+class Post extends Model
+{
+    use AnnotationRelationships;
+}
+```
+``` php
+$comments = Post::first()->commentaries;
+```
+Notice the Comment class name without an s after HasMany annotation.
+It also accepts a second parameter, the foreign key name through which the child class connects to this class (such as the second parameter in $this->belongsTo implementation). It must be provided inside parentheses. Ex:
+
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @HasMany Comment (id_publication)
+ */
+class Post extends Model
+{
+    use AnnotationRelationships;
+}
+```
+
+And you can mix both notations:
+
+``` php
+use AndyDan\LaravelAnnotationRelations\AnnotationRelationships;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @HasMany Comment commentaries(id_publication)
+ */
+class Post extends Model
+{
+    use AnnotationRelationships;
+}
+```
+
+So far, no plans to implement local key parameter (third argument in $this->belongsTo implementation)). It's a matter of time this feature is added to all other annotations.
 
 ### Many To Many
 
