@@ -8,6 +8,8 @@ abstract class AnnotationParameters
 
     protected $relatedFK;
 
+    protected $localKey;
+
     /**
      * Return relationship method name
      *

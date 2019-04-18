@@ -110,7 +110,7 @@ class Post extends Model
 ``` php
 $comments = Post::first()->commentaries;
 ```
-Notice the Comment class name without an s after HasMany annotation.
+Notice the Comment class name without an 's' after HasMany annotation.
 It also accepts a second parameter, the foreign key name through which the child class connects to this class (such as the second parameter in $this->belongsTo implementation). It must be provided inside parentheses. Ex:
 
 ``` php

@@ -155,7 +155,6 @@ trait AnnotationRelationships
     public function __call($name, $arguments)
     {
         $this->parseClassAnnotations();
-       
         if (empty($arguments)) {
             foreach ($this->annotationRelationships as $annotation => $relationships) {
                 foreach ($relationships as $parameters) {

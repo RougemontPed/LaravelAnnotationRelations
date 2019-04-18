@@ -11,11 +11,12 @@ class HasManyAnnotationParameters extends AnnotationParameters
      */
     protected $related;
 
-    public function __construct($relatedClassName, $relatedAlias = '', $relatedFK = '')
+    public function __construct($relatedClassName, $relatedAlias = '', $relatedFK = '', $localKey = '')
     {
         $this->related = $relatedClassName;
         $this->relatedAlias = $relatedAlias;
         $this->relatedFK = $relatedFK;
+        $this->localKey = $localKey;
     }
 
     /**
@@ -36,6 +37,7 @@ class HasManyAnnotationParameters extends AnnotationParameters
     public function getRelationshipMethodParameters()
     {
         return [$this->related,
-                $this->relatedFK];
+                $this->relatedFK,
+                $this->localKey == '' ? 'id' : $this->localKey];
     }
 }

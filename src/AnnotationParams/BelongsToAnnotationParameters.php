@@ -11,9 +11,12 @@ class BelongsToAnnotationParameters extends AnnotationParameters
      */
     protected $relatedClassName;
 
-    public function __construct($relatedClassName)
+    public function __construct($relatedClassName, $relatedAlias = null, $relatedFK = null, $localKey = null)
     {
         $this->relatedClassName = $relatedClassName;
+        $this->relatedAlias = $relatedAlias;
+        $this->relatedFK = $relatedFK;
+        $this->localKey = $localKey;
     }
 
     /**
@@ -23,7 +26,7 @@ class BelongsToAnnotationParameters extends AnnotationParameters
      */
     public function getRelationshipMethodName()
     {
-        return str_singular(lcfirst(class_basename($this->relatedClassName)));
+        return $this->relatedAlias ? $this->relatedAlias : str_singular(lcfirst(class_basename($this->relatedClassName)));
     }
 
     /**
@@ -35,8 +38,8 @@ class BelongsToAnnotationParameters extends AnnotationParameters
     {
         return [
             $this->relatedClassName,
-            null,
-            null,
+            $this->relatedFK,
+            $this->localKey,
             $this->getRelationshipMethodName(),
         ];
     }

@@ -83,17 +83,53 @@ abstract class AnnotationParser
     }
 
     /**
-     * $argument must be in one of three formats:
-     * > alias  
+     * $argument must be in one of five formats:
+     * > alias
      * > (fk_name)
+     * > (fk_name->local_key)
      * > alias(fk_name)
-     *
+     * > alias(fk_name->local_key)
      * @param $argument
      * @return bool
      */
     protected function isValidAliasOrFKOrBoth($argument)  {
-        return preg_match('/^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
-                          .'|[(][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[)]'
-                          .'|[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[(][a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*[)])$/', $argument);
+        $varName = '[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*';
+        return preg_match('/^('.$varName
+                          .'|[(]'.$varName.'[)]'
+                          .'|[(]'.$varName.'[-][>]'.$varName.'[)]'
+                          .'|'.$varName.'[(]'.$varName.'[)]'
+                          .'|'.$varName.'[(]'.$varName.'[-][>]'.$varName.'[)])$/', $argument);
+    }
+
+    /**
+     * Undocumented function
+     * @param [type] $parameters
+     * @return void
+     */
+    protected function handleExtraParameters($parameters) {
+        $modelName = $parameters;
+        $relatedAlias = null;
+        $relatedFK = null;
+        $localKey = null;
+
+        $parameters_array = explode(' ', $parameters);
+        $extraArgsRegex = '/([^(]*)?([(]([^)]+)[)])?/';
+
+        if (count($parameters_array) > 1) {
+            $modelName = $parameters_array[0];
+            preg_match($extraArgsRegex, $parameters_array[1], $extraArgs);
+            $relatedAlias = $extraArgs[1];
+            if (count($extraArgs) == 4) {
+                if (!strstr($extraArgs[3],  '->')) {
+                    $relatedFK = $extraArgs[3];
+                } else {
+                    $extraArgsArray = explode('->', $extraArgs[3]);
+                    $relatedFK = trim($extraArgsArray[0]);
+                    $localKey = trim($extraArgsArray[1]);
+                }
+            }
+        }
+        
+        return array($modelName, $relatedAlias, $relatedFK, $localKey);
     }
 }

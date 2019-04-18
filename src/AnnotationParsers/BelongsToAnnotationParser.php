@@ -18,11 +18,15 @@ class BelongsToAnnotationParser extends AnnotationParserWithClassParameter
      */
     public function handle($parameters, $className)
     {
+        list($modelName, $relatedAlias, $relatedFK, $localKey) = $this->handleExtraParameters($parameters);
         return new BelongsToAnnotationParameters(
             $this->getRelationshipClassName(
-                $parameters,
+                $modelName,
                 $this->getClassNamespaceName($className)
-            )
+            ),
+            $relatedAlias,
+            $relatedFK,
+            $localKey
         );
     }
 }
